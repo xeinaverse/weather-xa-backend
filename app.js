@@ -8,7 +8,7 @@ const { timeStamp } = require('console');
 
 let lati, long;
 let url;
-let temperature, city;
+let temperature, city, status;
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -34,8 +34,10 @@ app.post('/locationInfo', (req, res) => {
     data = JSON.parse(body)
     temperature = data.main.temp;
     city = data.name;
+    console.log(data)
+    status = data.weather[0].description;
     console.log(`It's currently ${data.main.temp} in ${data.name}.`)
-    res.send(JSON.stringify({ temperature, city }))
+    res.send(JSON.stringify({ temperature, city, status }))
   })
   let today = new Date();
   const MongoClient = require('mongodb').MongoClient;
