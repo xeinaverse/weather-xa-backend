@@ -4,6 +4,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
 const cors = require('cors');
+const MongoClient = require('mongodb').MongoClient;
 
 let lati, long;
 let url;
@@ -39,7 +40,6 @@ app.post('/locationInfo', (req, res) => {
     res.send(JSON.stringify({ temperature, city, status }))
   })
   let today = new Date();
-  const MongoClient = require('mongodb').MongoClient;
   const uri = "mongodb+srv://skull:candy11@cluster0.mli7b.azure.mongodb.net/<dbname>?retryWrites=true&w=majority";
   const client = new MongoClient(uri, { useNewUrlParser: true });
   client.connect(err => {
