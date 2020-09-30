@@ -21,11 +21,10 @@ app.listen(port, (error) => {
     console.log(`Listening on port ${port}.`)
 })
 
-
-
 app.get('/', (req, res) => {
   res.send('welcome')
 })
+
 app.post('/locationInfo', (req, res) => {
   lati = req.body.data.lati;
   long = req.body.data.long;
@@ -34,16 +33,14 @@ app.post('/locationInfo', (req, res) => {
     data = JSON.parse(body)
     temperature = data.main.temp;
     city = data.name;
-    console.log(data)
     status = data.weather[0].description;
-    console.log(`It's currently ${data.main.temp} in ${data.name}.`)
     res.send(JSON.stringify({ temperature, city, status }))
   })
   let today = new Date();
   const uri = "mongodb+srv://skull:candy11@cluster0.mli7b.azure.mongodb.net/<dbname>?retryWrites=true&w=majority";
   const client = new MongoClient(uri, { useNewUrlParser: true });
   client.connect(err => {
-    const collection = client.db("Weather").collection("data").insertOne( { CityName: city, Temperature: temperature, Date: today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate(), Time: today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds()}, function(err, res) {
+    const collection = client.db("Weather").collection("data").insertOne( { CityName: city, Temperature: temperature, Date: today.getDate()+'-'+(today.getMonth()+1)+'-'+today.getFullYear(), Time: today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds()}, function(err, res) {
       if (err) throw err;
     });
     client.close();
